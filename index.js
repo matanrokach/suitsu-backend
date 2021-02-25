@@ -3,7 +3,7 @@ const defaultPort = 8000;
 
 const app = express();
 
-const { weatherRoute } = require('./routes');
+const { weatherRoute, authRoute } = require('./routes');
 
 app.use((req, res, next) => {
 
@@ -14,7 +14,7 @@ app.use((req, res, next) => {
 	res.setHeader('Access-Control-Allow-Methods', 'GET, POST, OPTIONS, PUT, PATCH, DELETE');
 
 	// Request headers you wish to allow
-	res.setHeader('Access-Control-Allow-Headers', 'X-Requested-With,content-type');
+	res.setHeader('Access-Control-Allow-Headers', 'X-Requested-With,content-type,Authorization');
 
 	// Set to true if you need the website to include cookies in the requests sent
 	// to the API (e.g. in case you use sessions)
@@ -27,6 +27,7 @@ app.use((req, res, next) => {
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 
+app.use('/auth', authRoute);
 app.use('/weather', weatherRoute);
 
 app.use('/', (req, res) => {
